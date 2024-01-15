@@ -1,0 +1,86 @@
+class CCBDocument:
+<<<<<<< HEAD
+      def __init__(self):
+          self.__steps = {}
+          self.isUpdated = False
+
+      def __reorderSteps(self):
+          orderedSteps = {}
+          for i in sorted(self.__steps.keys()):
+              orderedSteps[i] = self.__steps[i]
+          self.__steps = orderedSteps
+
+
+      def addStep(self, stepNum, scriptData, stepInfo):
+          self.__steps[stepNum] = {'info': stepInfo, 'data': scriptData, 'updated': False}
+
+      def addSteps(self, pageBody):
+          self.__steps = {}
+          self.__pageBody = pageBody
+          for stepslist in pageBody['pageBody']['lists']['STEP']['list']:
+              self.addStep(stepslist['STEP_SEQ_NUM'], stepslist['EDIT_DATA_AREA'], stepslist['STEP_INFO'])
+              #clear the edit data area.  Track only steps that are changed
+              stepslist['EDIT_DATA_AREA'] = ""
+              listIndex = len(self.__steps) - 1
+              self.__pageBody['pageBody']['lists']['STEP']['list'][listIndex] = stepslist
+          self.__reorderSteps()
+
+      def getStep(self, stepNum):
+          return self.__steps[stepNum]
+
+      def getAllSteps(self):
+          return self.__steps
+
+      def getCurrentPageBody(self):
+          return self.__pageBody
+
+      def updateStep(self, stepNum, scriptData, stepInfo):
+          self.__steps[stepNum] = {'info': stepInfo, 'data': scriptData, 'updated': True}
+          #update pageBody
+          dataStepIndex = next((i for i, step in enumerate(self.__pageBody['pageBody']['lists']['STEP']['list'] ) if step['STEP_SEQ_NUM'] == stepNum), None)  
+          dataStep = self.__pageBody['pageBody']['lists']['STEP']['list'][dataStepIndex]
+          dataStep['EDIT_DATA_AREA'] = scriptData
+          self.__pageBody['pageBody']['lists']['STEP']['list'][dataStepIndex] = dataStep
+          self.isUpdated = False
+=======
+    def __init__(self):
+        self.__steps = {}
+    
+    def __reorderSteps(self):
+        orderedSteps = {}
+        for i in sorted(self.__steps.keys()):
+            orderedSteps[i] = self.__steps[i]
+        self.__steps = orderedSteps
+    
+    
+    def addStep(self, stepNum, scriptData, stepInfo):
+        self.__steps[stepNum] = {'info': stepInfo, 'data': scriptData, 'updated': False}
+    
+    def addSteps(self, pageBody):
+        self.__steps = {}
+        self.__pageBody = pageBody
+        for stepslist in pageBody['pageBody']['lists']['STEP']['list']:
+            self.addStep(stepslist['STEP_SEQ_NUM'], stepslist['EDIT_DATA_AREA'], stepslist['STEP_INFO'])
+            #clear the edit data area.  Track only steps that are changed
+            stepslist['EDIT_DATA_AREA'] = ""
+            listIndex = len(self.__steps) - 1
+            self.__pageBody['pageBody']['lists']['STEP']['list'][listIndex] = stepslist
+        self.__reorderSteps()
+    
+    def getStep(self, stepNum):
+        return self.__steps[stepNum]
+    
+    def getAllSteps(self):
+        return self.__steps
+    
+    def getCurrentPageBody(self):
+        return self.__pageBody
+    
+    def updateStep(self, stepNum, scriptData, stepInfo):
+        self.__steps[stepNum] = {'info': stepInfo, 'data': scriptData, 'updated': True}
+        #update pageBody
+        dataStepIndex = next((i for i, step in enumerate(self.__pageBody['pageBody']['lists']['STEP']['list'] ) if step['STEP_SEQ_NUM'] == stepNum), None)  
+        dataStep = self.__pageBody['pageBody']['lists']['STEP']['list'][dataStepIndex]
+        dataStep['EDIT_DATA_AREA'] = scriptData
+        self.__pageBody['pageBody']['lists']['STEP']['list'][dataStepIndex] = dataStep
+>>>>>>> 968c8aa8d0be87f35251293319e13fef5da42269
